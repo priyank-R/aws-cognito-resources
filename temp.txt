@@ -1,0 +1,5 @@
+I have this IdentityRoles.js file where I'm creating the roles for attaching it to my identity pool along with some policies. However, in the code, I'm nowehere mentioning the creation of policies before attaching them to roles. So, rewrite this code to do the following: 
+1. Create the following policies:
+ - ProductAppFetchRecords: Allows reading all records for the table mentioned in the env variable: AWS_DYNAMO_DB_TABLE_NAME
+ - ProductAppCreateRecord: Allows creating new records for the table mentioned in the env variable: AWS_DYNAMO_DB_TABLE_NAME
+ - ProductAppDeleteRecords: Allows deleting the records

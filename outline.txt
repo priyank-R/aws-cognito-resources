@@ -1,0 +1,38 @@
+I'm writing a blog about how to build a simple react application that can perform authentication using cognito userpool, 
+perform authorization using cognito identity pool and then fetch the records from a given dynamo db table. 
+In the blog, I want to higlight the following things in order: 
+
+1. Goal: To build a react application that relies on AWS native backend, allowing secure database operations without any backend server or lambda
+2. Steps:	
+	2.1 Create a react application using create-react-app
+		- The example we will be using is to create a product-management app. So the user can list, add, update or remove products. 
+		- Just highlight that we're building something like this, no need to provide any specific code yet in that regards.
+	2.2 Sign in to your AWS account
+	2.3 Create a new Dynamo DB table (ProductAppTable) and insert some sample product information in it (product_id is the Primary Key)
+		- We need product_id, name, description, unit_price, created_at and updated_at timestamps, product_owner
+	2.3 Create a new cognito user pool and cognito identity pool
+		- Highlight the fact that why we really need a user pool. 
+		- Also mention the key differences between identity and user pool 
+		- Write the exact steps on how to do this. At the end, give cli-commands to perform this step in one go so that the user can simply replace the variables to their preferred names.
+	2.4 For the identity pool, allow authenticated and guest access with the following roles configuration:
+		2.4.1: Guest Access: Role name: ProductAppGuestRole
+			- Allow fetching all the records from ProductAppTable only. (Policy Name: ProductAppFetchRecords)
+		2.4.2: Authenticated Access:	
+			- Default Role: Allow fetching all the records (ProductAppFetchRecords), creating NEW records in ProductAppTable (ProductAppCreateRecord)
+			- App Admin Role: Allow fetching (Policy: ProductAppFetchRecords), Creating new Records(Policy: ProductAppCreateRecord) and UPDATING existing record's price (Policy: ProductAppUpdatePrice)
+			- In all the authenticated roles, attach one more common policy which allows deletion of all the records that belonged to the signed in user from the table. This can be achieved with the help of claims
+	2.5 Integrate AWS amplify library with the react application and allow users to sign in, sign out.
+	2.6 Create a DB manager helper in react that can perform all CRUD operations and which can use the current auth credentials of the users to perform the operations.
+	2.7 Create necessary functionalities of Create / List / Update / Delete in the react for each product (Use antd v5 for the UI)
+
+
+3. Some assumptions:
+	- Default location will be us-east-1 for all resources, so write the commands and code accordingly.
+	- At the end of all the steps, provide a single AWS-CLI list of commands that can perform the complete resource creation for the users wherein they can simply replace the variables such 
+	as location, table name, role name, pools name, etc.
+		
+
+I want you chat gpt to provide me with the following things: 
+1. Write the code for all the steps and at the end, create a python script that will create all the AWS resources (pools, tables, policies, roles) highlighted in the steps.
+2. Make sure that for react code, you provide specific components and file names and their fully qualified path so the users can know where to place what. 
+3. In the steps where we're integrating amplify, write necessary code and npm install commands to perform that step. 
