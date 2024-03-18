@@ -7,11 +7,18 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.28",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
     "antd": "^5.15.2",
     "aws-amplify": "^6.0.20",
+    "aws-sdk": "^2.1579.0",
+    "env-cmd": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "typescript": "^5.4.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
