@@ -26,7 +26,7 @@ module.exports = async function createUserAndIdentityPool() {
   try {
     // Create User Pool
     const userPoolData = await cognitoIdentityServiceProvider.createUserPool(createUserPoolParams).promise();
-    console.log("User Pool created successfully:", userPoolData);
+    console.log("User Pool created successfully:", userPoolData?.UserPool?.Id);
 
     // Create User Pool Client
     const createUserPoolClientParams = {
@@ -37,7 +37,7 @@ module.exports = async function createUserAndIdentityPool() {
     };
 
     const userPoolClientData = await cognitoIdentityServiceProvider.createUserPoolClient(createUserPoolClientParams).promise();
-    console.log("User Pool client created successfully:", userPoolClientData);
+    console.log("User Pool client created successfully:", userPoolClientData?.UserPoolClient?.ClientId);
 
     // Update Identity Pool parameters with User Pool details
     createIdentityPoolParams.CognitoIdentityProviders.push({
@@ -47,7 +47,7 @@ module.exports = async function createUserAndIdentityPool() {
 
     // Create Identity Pool
     const identityPoolData = await createIdentityPool(createIdentityPoolParams);
-    console.log("Identity Pool created successfully:", identityPoolData);
+    console.log("Identity Pool created successfully:", identityPoolData?.IdentityPoolId);
 
   } catch (err) {
     console.error("Error creating User or Identity Pool:", err);

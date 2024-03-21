@@ -1,0 +1,97 @@
+Blog: Building a Secure Webapp on AWS Without a Backend: Cognito, DynamoDB, and Amplify Integration
+
+In this guide, we'll navigate the creation of a secure React application on AWS, focusing on user authentication through Cognito, data storage via DynamoDB, and effortless integration using Amplify. Our goal is a serverless product-management app, allowing users to list, add, update, and remove products. From initializing the React app to configuring AWS resources, we'll walk through each step, ensuring your application remains secure and scalable without the need for a traditional backend setup. 
+
+As a part of this blog, we will be creating all the resources required for AWS and React. We will be using the premise of creating a product-management-app, so all our names will be in accordance with it. Also, our approach is to create AWS resources directly with a nodejs script, eliminating manual work. 
+Outline: 
+1.	Initialization and Setup:
+a.	We begin by initializing our React application using create-react-app and ensuring that our AWS CLI is properly configured. Additionally, we clone a repository containing the necessary scripts and setup files.
+2.	AWS Resource Creation:
+a.	Next, we create essential AWS resources manually or through a Node.js script. These include a Cognito User Pool with default password policies, an Identity Pool linked to the User Pool, and a DynamoDB Table for storing product data. We also define user roles and attach them to the Identity Pool for access control.
+3.	Configuration and Installation:
+a.	With the AWS resources in place, we configure environment variables, install dependencies, and update configuration files within our React application. This includes configuring authentication settings and setting up CRUD logic for DynamoDB operations.
+4.	Application Deployment:
+a.	After setting up the application, we deploy it locally and proceed to create a sample user in the Cognito User Pool. With basic authentication configured, we can access the application's login screen using the withAuthenticator HOC provided by the aws-amplify/ui-react library.
+5.	User Authentication and Operations:
+a.	Upon logging in, users can perform various operations such as creating new records and fetching existing ones. However, certain operations like updating records are restricted based on the user's role. To enable update operations, we create an admin group and attach it to the user in the User Pool settings.
+
+
+Implementation: 
+0.	Assumptions:  We would assume that you have the following items available / configured:
+a.	AWS CLI Access
+b.	Git is installed and the repository is accessible : https://github.com/priyank-R/aws-cognito-resources
+1.	Creating AWS resources Manually:
+a.	In this article, we will be creating resources through a NodeJS script for which, you will need your AWS CLI configured. However, if you wish to manually create the resources through the AWS console, you can refer the following setup:
+i.	Cognito User Pool
+1.	Default Password Policy
+2.	User Pool Client:
+a.	Callback URL: localhost:3000
+b.	Logout URL: localhost:3000/logout
+ii.	Identity Pool:
+1.	Provider: Cognito User Pool that was just created along with the User pool client 
+iii.	DynamoDB Table:
+1.	Key: product_id
+2.	Read Capacity Units: 5
+3.	Write Capacity Units: 5
+iv.	User Roles:
+1.	ProductAppGuestRole: <GuestRolePolicy>
+2.	ProductAppAuthenticatedRole: <AuthRolePolicy>
+3.	ProductAppAdminRole: <AdminRolePolicy>
+v.	Attach Roles to Identity Pool:
+1.	Identity Pool / Your Identity Pool / User Access / Identity Provider / Select your only Identity Provider / Role Settings 
+2.	Choose Role with rules
+3.	<role_settings>
+2.	Creating AWS Resources with NodeJs Script
+3.	Clone the Repository:
+a.	This repository has all the code required for the initialization of AWS-resources and referring to the react-application setup
+b.	<1_GitClone>
+4.	Configure ProductAppResources\.env:
+a.	You can choose to name the resources in the .env file of keep them as it is. But your ACCOUNT_ID will be required for the script to run successfully. 
+b.	<2_EnvFile>
+5.	Run the script:
+a.	Before running the script, open the terminal and login to your aws account through cli
+b.	Once you are logged in, in the same terminal session, go to the root of the repository/ProductAppResources and run the script
+c.	<3_RunScript>
+d.	<4_ScriptOutput>
+6.	Validate your AWS resources:
+7.	Create a sample user in Cognito User Pool:
+a.	You will be asked to reset the password by cognito when you first login 
+b.	<create_user>
+8.	React Application:
+a.	We already have a react app created in this sample project that you can use for understanding the flow.
+b.	If you wish to create your own react app, you will need the following libraries: 
+i.	Install aws-amplify, @aws-amplify/ui-react, aws-sdk, env-cmd, typescript
+9.	Install dependencies in the sample app:
+a.	<install_react_deps>
+10.	Update product-management-app\.env:
+a.	<react_env>
+11.	product-management-app\src\config\aws_exports.js (No action required if you’re using the sample app):
+a.	This file fetches all the variables from .env file and translates them to aws-sdk compatible variables.
+12.	Configure authentication on product-management-app\src\App.tsx:	
+a.	We already have configured the basic authentication in the sample app. 
+13.	product-management-app\src\db\index.ts:
+a.	This file holds the CRUD related logic for querying dynamo db.
+14.	product-management-app\src\Operations.js
+a.	The actual component from where we will test the application flow
+15.	Run the application:
+a.	<start_react>
+16.	Login Screen:
+a.	<app_login_screen>
+b.	The login screen appears since we have used the withAuthenticator HOC provided by aws-amplify/ui-react library.
+c.	It managed end-to-end login flow without the need for us to manually create an components / flows.
+17.	Login with your user
+a.	<app_user_login>
+18.	Perform operations – You will be allowed to perform 
+a.	Create new record
+b.	Fetch all records
+19.	You will not be allowed to perform:
+a.	Update record
+b.	Reason: You are an authenticated user who does not have the permissions for Update. 
+20.	Create new group: admin
+a.	You can find this option in your User Pool settings
+21.	Attach the admin group to your user:
+a.	You can find this option in your user pool settings
+22.	Refresh the app 
+23.	Update Record runs successfully 
+By following this guide, you'll have successfully built a secure and scalable web application on AWS using Cognito, DynamoDB, and Amplify integration. This serverless architecture eliminates the need for managing backend infrastructure while providing robust security and scalability for your application.
+

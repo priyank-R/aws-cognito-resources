@@ -15,8 +15,6 @@ module.exports = async function createTable() {
       WriteCapacityUnits: 5,
     },
   };
-  dynamoDB.createTable(createTableParams, (err, data) => {
-    if (err) console.error("Error creating table:", err);
-    else console.log("Table created successfully:", data);
-  });
-}
+  let data = await dynamoDB.createTable(createTableParams).promise();
+  console.log("Table created successfully:", data?.TableDescription?.TableId);
+};

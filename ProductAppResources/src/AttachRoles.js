@@ -40,7 +40,7 @@ module.exports = async function attachRolesToIdentityPool() {
     };
 
     const data = await cognitoidentity.setIdentityPoolRoles(params).promise();
-    console.log("Roles attached to Identity Pool:", data);
+    console.log("Roles attached to Identity Pool");
   } catch (err) {
     console.error("Error attaching roles to Identity Pool:", err);
   }
