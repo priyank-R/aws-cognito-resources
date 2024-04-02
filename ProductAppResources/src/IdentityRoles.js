@@ -86,7 +86,6 @@ module.exports = async function createRoles() {
       }),
       RoleName: `${process.env.AWS_ROLE_GUEST}`,
     };
-    iam.createI
     const guestRole = await iam.createRole(guestRoleParams).promise();
     console.log("Guest Role created:", guestRole.Role.RoleName);
     await attachPolicy(guestRole.Role.RoleName, guestPolicy);
